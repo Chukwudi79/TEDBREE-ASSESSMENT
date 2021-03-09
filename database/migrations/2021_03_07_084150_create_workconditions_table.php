@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateWorkconditionsTable extends Migration
 {
@@ -18,6 +19,12 @@ class CreateWorkconditionsTable extends Migration
             $table->string('type')->unique();
             $table->timestamps();
         });
+
+        DB::connection(env('DB_CONNECTION'))->table('workconditions')->insert([
+            ['type' => 'Remote', 'created_at' => NOW(), 'updated_at' => NOW()],
+            ['type' => 'Part Remote', 'created_at' => NOW(), 'updated_at' => NOW()],
+            ['type' => 'On-Premise', 'created_at' => NOW(), 'updated_at' => NOW()],
+        ]);
     }
 
     /**

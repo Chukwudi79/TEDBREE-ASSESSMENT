@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -38,11 +39,14 @@ class AuthController extends Controller
 
             $user->avatar = $avatar;
         }
+
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->role = 2; //Company Role is represented as 2 while Admin will be 1
         $user->save();
+
+        $user->avatar = (!empty($user->avatar)) ? env('APP_URL') . Storage::disk('local')->url($user->avatar) : $user->avatar; //Forward write user avatar url
 
         return response()->json(['status' => 'success', 'message' => 'User Created Successfully!', 'data' => $user], 200);
     }

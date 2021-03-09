@@ -25,11 +25,13 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
-        DB::connection('sqlsrv')->table('users')->insert([
+        DB::connection(env('DB_CONNECTION'))->table('users')->insert([
             'name' => 'Tedbree',
             'email' => 'business@example.com',
             'password' => bcrypt('password'),
             'role' => 2,
+            'created_at' => NOW(),
+            'updated_at' => NOW(),
         ]);
     }
 

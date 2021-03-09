@@ -146,14 +146,21 @@ class JobController extends Controller
      * @param Job $keyword
      * return Applicant Resource
      */
-    public function search(Request $request, $q)
+    public function search(Request $request)
     {
-        return $q;
+        $key = $request->get('q');
 
-        $jobs = Job::where('title', 'LIKE', '%'.$q.'%')
-                        ->orWhere('description', 'LIKE', '%' . $q . '%')->get();
+        $jobs = Job::where('title', 'LIKE', '%' . $key . '%')
+                    ->orWhere('description', 'LIKE', '%' . $key . '%')
+                    ->orWhere('company', 'LIKE', '%' . $key . '%')
+                    ->orWhere('location', 'LIKE', '%' . $key . '%')
+                    ->orWhere('benefits', 'LIKE', '%' . $key . '%')
+                    ->orWhere('type', 'LIKE', '%' . $key . '%')
+                    ->orWhere('category', 'LIKE', '%' . $key . '%')
+                    ->orWhere('work_condition', 'LIKE', '%' . $key . '%')
+                    ->orWhere('salary', 'LIKE', '%' . $key . '%')->get();
 
-        return response()->json($jobs);
+         return response()->json($jobs);
     }
 
 
